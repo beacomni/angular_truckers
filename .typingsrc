@@ -1,0 +1,4 @@
+{
+"proxy" : "http://jhproxy1.phibred.com:8080/",
+"rejectUnauthorized" : false
+}
