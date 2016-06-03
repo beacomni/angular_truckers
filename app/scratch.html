@@ -1,8 +1,7 @@
-<div *ngIf="trucker">
-	<h2>{{trucker.handle}} details</h2>
-	<div><label>id: </label>{{trucker.id}}
-	<div>
-	  <label>name: </label>
-	  <input [(ngModel)]="trucker.handle" placeholder="handle">
-	</div>
-</div>
+<h1>Component Router</h1>
+<nav>
+	<a [routerLink]="['Diesel Station']">Diesel Station</a>
+	<a [routerLink]="['Truckers']">Truckers</a>
+</nav>
+<!--A template may hold exactly one unnamed <router-outlet>.-->
+<router-outlet></router-outlet>

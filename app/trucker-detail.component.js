@@ -32,7 +32,7 @@ System.register(['angular2/core', './Trucker'], function(exports_1, context_1) {
                 TruckerDetailComponent = __decorate([
                     core_1.Component({
                         selector: 'my-trucker-detail',
-                        template: "\n<div *ngIf=\"trucker\">\n\t<h2>{{trucker.handle}} details</h2>\n\t<div><label>id: </label>{{trucker.id}}\n\t\t<div>\n\t\t\t<label>name: </label>\n\t\t\t<input [(ngModel)]=\"trucker.handle\" placeholder=\"handle\">\n\t\t</div>\n\t</div>\n\t"
+                        template: "\n\t<div *ngIf=\"trucker\">\n\t<h2>{{trucker.handle}} details</h2>\n\t<div><label>id: </label>{{trucker.id}}\n\t<div>\n\t<label>name: </label>\n\t<input [(ngModel)]=\"trucker.handle\" placeholder=\"handle\">\n\t</div>\n\t</div>\n\t"
                     }), 
                     __metadata('design:paramtypes', [])
                 ], TruckerDetailComponent);
