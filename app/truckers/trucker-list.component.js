@@ -11,14 +11,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var trucker_detail_component_1 = require('./trucker-detail.component');
 var trucker_service_1 = require('./trucker.service');
+var router_deprecated_1 = require('@angular/router-deprecated');
 //The (*) prefix to ngFor indicates that the <li> element and its children constitute a master template.
 var TruckerListComponent = (function () {
     //truckerService = new TruckerService(); // don't do this. Instead:
-    function TruckerListComponent(_truckerService) {
+    function TruckerListComponent(_truckerService, _router) {
         this._truckerService = _truckerService;
+        this._router = _router;
     }
     TruckerListComponent.prototype.onSelect = function (trucker) {
-        //this.selectedTrucker = trucker;
+        this.selectedTrucker = trucker;
     };
     TruckerListComponent.prototype.getTruckers = function () {
         var _this = this;
@@ -27,15 +29,19 @@ var TruckerListComponent = (function () {
     TruckerListComponent.prototype.ngOnInit = function () {
         this.getTruckers();
     };
+    TruckerListComponent.prototype.gotoDetail = function () {
+        console.log('going');
+        this._router.navigate(['TruckerDetail', { id: this.selectedTrucker.id }]);
+    };
     TruckerListComponent = __decorate([
         core_1.Component({
             directives: [trucker_detail_component_1.TruckerDetailComponent],
             selector: 'trucker-convoy',
-            template: "\n\t<ul class=\"truckers\">\n\t<li *ngFor=\"#trucker of truckers\" \n\t(click)=\"onSelect(trucker)\" \n\t[class.selected]=\"trucker===selectedTrucker\">\n\t<span class=\"badge\">{{trucker.id}}</span> {{trucker.handle}}\n\t</li>\n\t</ul>\n\t<my-trucker-detail [trucker]=\"selectedTrucker\"></my-trucker-detail>\n\t",
+            templateUrl: 'app/trucker-list.component.html',
             providers: [trucker_service_1.TruckerService],
-            styles: ["\n\t.selected {\n\t\tbackground-color: #CFD8DC !important;\n\t\tcolor: white;\n\t}\n\t.truckers {\n\t\tmargin: 0 0 2em 0;\n\t\tlist-style-type: none;\n\t\tpadding: 0;\n\t\twidth: 15em;\n\t}\n\t.truckers li {\n\t\tcursor: pointer;\n\t\tposition: relative;\n\t\tleft: 0;\n\t\tbackground-color: #EEE;\n\t\tmargin: .5em;\n\t\tpadding: .3em 0;\n\t\theight: 1.6em;\n\t\tborder-radius: 4px;\n\t}\n\t.truckers li.selected:hover {\n\t\tbackground-color: #BBD8DC !important;\n\t\tcolor: white;\n\t}\n\t.truckers li:hover {\n\t\tcolor: #607D8B;\n\t\tbackground-color: #DDD;\n\t\tleft: .1em;\n\t}\n\t.truckers .text {\n\t\tposition: relative;\n\t\ttop: -3px;\n\t}\n\t.truckers .badge {\n\t\tdisplay: inline-block;\n\t\tfont-size: small;\n\t\tcolor: white;\n\t\tpadding: 0.8em 0.7em 0 0.7em;\n\t\tbackground-color: #607D8B;\n\t\tline-height: 1em;\n\t\tposition: relative;\n\t\tleft: -1px;\n\t\ttop: -4px;\n\t\theight: 1.8em;\n\t\tmargin-right: .8em;\n\t\tborder-radius: 4px 0 0 4px;\n\t}\n\t"],
+            styleUrls: ['app/trucker-list.component.css'],
         }), 
-        __metadata('design:paramtypes', [trucker_service_1.TruckerService])
+        __metadata('design:paramtypes', [trucker_service_1.TruckerService, router_deprecated_1.Router])
     ], TruckerListComponent);
     return TruckerListComponent;
 }());

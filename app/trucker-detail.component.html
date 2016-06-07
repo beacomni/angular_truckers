@@ -1,0 +1,11 @@
+    <div *ngIf="trucker">
+      <h2>{{trucker.handle}} details</h2>
+      <div>
+        <label>id: </label>{{trucker.id}}
+      </div>
+      <div>
+        <label>name: </label>
+        <input [(ngModel)]="trucker.handle" placeholder="name"/>
+      </div>
+    </div>
+    <button (click)="goBack()">Back</button>

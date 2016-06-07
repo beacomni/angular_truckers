@@ -15,9 +15,9 @@ var trucker_service_1 = require('./trucker.service');
 //parent app component will tell this component which Trucker to display
 var TruckerDetailComponent = (function () {
     //The router extracts the route parameter (id:) from the URL and supplies it to the TruckerDetailComponent via the RouteParams service
-    function TruckerDetailComponent(_router, _routeParams, _truckerService) {
-        this._router = _router;
+    function TruckerDetailComponent(_routeParams, _router, _truckerService) {
         this._routeParams = _routeParams;
+        this._router = _router;
         this._truckerService = _truckerService;
     }
     TruckerDetailComponent.prototype.onSelect = function (trucker) {
@@ -27,9 +27,14 @@ var TruckerDetailComponent = (function () {
     };
     TruckerDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
-        var id = this._routeParams.get('id');
+        var id = +this._routeParams.get('id');
         console.log(id);
         this._truckerService.getTrucker(id).then(function (trucker) { return _this.trucker = trucker; });
+    };
+    //Going back too far could take us out of the application. 
+    //That's acceptable in a demo. We'd guard against it in a real application, perhaps with the routerCanDeactivate hook.
+    TruckerDetailComponent.prototype.goBack = function () {
+        window.history.back();
     };
     __decorate([
         core_1.Input(), 
@@ -38,9 +43,10 @@ var TruckerDetailComponent = (function () {
     TruckerDetailComponent = __decorate([
         core_1.Component({
             selector: 'my-trucker-detail',
-            template: "\n\t<div *ngIf=\"trucker\">\n\t<h2>{{trucker.handle}} details</h2>\n\t<div><label>id: </label>{{trucker.id}}\n\t<div>\n\t<label>name: </label>\n\t<input [(ngModel)]=\"trucker.handle\" placeholder=\"handle\">\n\t</div>\n\t</div>\n\t"
+            templateUrl: 'app/trucker-detail.component.html',
+            styleUrls: ['app/trucker-detail.component.css']
         }), 
-        __metadata('design:paramtypes', [router_deprecated_1.Router, router_deprecated_1.RouteParams, trucker_service_1.TruckerService])
+        __metadata('design:paramtypes', [router_deprecated_1.RouteParams, router_deprecated_1.Router, trucker_service_1.TruckerService])
     ], TruckerDetailComponent);
     return TruckerDetailComponent;
 }());

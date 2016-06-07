@@ -5,17 +5,9 @@ import {TruckerService} from './trucker.service';
 
 //parent app component will tell this component which Trucker to display
 @Component({
-	selector: 'my-trucker-detail',
-	template: `
-	<div *ngIf="trucker">
-	<h2>{{trucker.handle}} details</h2>
-	<div><label>id: </label>{{trucker.id}}
-	<div>
-	<label>name: </label>
-	<input [(ngModel)]="trucker.handle" placeholder="handle">
-	</div>
-	</div>
-	`
+  selector: 'my-trucker-detail',
+  templateUrl: 'app/trucker-detail.component.html',
+  styleUrls:['app/trucker-detail.component.css']
 })
 
 export class TruckerDetailComponent{
@@ -24,8 +16,8 @@ export class TruckerDetailComponent{
 
 	//The router extracts the route parameter (id:) from the URL and supplies it to the TruckerDetailComponent via the RouteParams service
 	constructor(
-		private _router: Router,
 		private _routeParams: RouteParams,
+		private _router: Router,
 		private _truckerService: TruckerService) { }
 
 	public truckers: Trucker[];
@@ -39,9 +31,15 @@ export class TruckerDetailComponent{
 	}
 
 	ngOnInit() {
-		let id = this._routeParams.get('id');
+		let id = +this._routeParams.get('id');
 		console.log(id);
 		this._truckerService.getTrucker(id).then(trucker => this.trucker = trucker)
+	}
+
+	//Going back too far could take us out of the application. 
+	//That's acceptable in a demo. We'd guard against it in a real application, perhaps with the routerCanDeactivate hook.
+	goBack(){
+		window.history.back();
 	}
 }
 

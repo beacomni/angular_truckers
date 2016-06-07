@@ -20,19 +20,10 @@ var TruckerService = (function () {
     TruckerService.prototype.getTruckers = function () {
         //note that I think this is using ES2015 promises, NOT angular $q promises.
         //return Promise.resolve(TRUCKERS);
-        return new Promise(function (resolve) {
-            return setTimeout(function () { return resolve(mock_truckers_1.TRUCKERS); }, 0);
-        });
+        return Promise.resolve(mock_truckers_1.TRUCKERS);
     };
     TruckerService.prototype.getTrucker = function (id) {
-        return new Promise(function (resolve) {
-            var foundTruckers = mock_truckers_1.TRUCKERS.filter(function (trucker) { return trucker.id === id; });
-            console.log(foundTruckers);
-            if (foundTruckers.length === 1) {
-                resolve(foundTruckers[0]);
-            }
-            ;
-        });
+        return this.getTruckers().then(function (truckers) { return truckers.filter(function (trucker) { return trucker.id === id; })[0]; });
     };
     TruckerService = __decorate([
         core_1.Injectable(), 

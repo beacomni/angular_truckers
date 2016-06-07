@@ -2,6 +2,7 @@ import {Component,OnInit} from '@angular/core';
 
 import {Trucker} from './truckers/Trucker';
 import {TruckerService} from './truckers/trucker.service';
+import {Router} from '@angular/router-deprecated';
 /*
 We specify the path all the way back to the application root — app/ 
 in this case — because Angular doesn't support relative paths by default. 
@@ -11,12 +12,15 @@ Note -- NAB -- this comment may only apply to a more recent version of angular 2
 */
 @Component({
 	selector: 'my-dashboard',
-	templateUrl:'dashboard.component.html'
+	templateUrl:'dashboard.component.html',
+	styleUrls:['app/dashboard.component.css']
 })
 export class DashboardComponent implements OnInit{
   truckers: Trucker[] = [];
 
-  constructor(private truckerService: TruckerService){}
+  constructor(
+  	private truckerService: TruckerService,
+  	private router: Router){}
 
   ngOnInit(){
   	this.truckerService.getTruckers().then(truckers => {
@@ -25,5 +29,8 @@ export class DashboardComponent implements OnInit{
   	});
   }
 
-  gotoDetail(){}
+  gotoDetail(trucker: Trucker){
+  	let link = ['TruckerDetail',{id: trucker.id}];
+  	this.router.navigate(link);
+  }
 }

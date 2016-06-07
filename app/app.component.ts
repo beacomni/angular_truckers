@@ -11,7 +11,6 @@ import {TruckerService} from './truckers/trucker.service'
 	template: `
 	<h1>{{title}}</h1>
 	<trucker-convoy></trucker-convoy>
-	<h1>Component Router</h1>
 	<nav>
 	<!-- optional route and query parameters that could go in array to the right of = are not used yet-->
 	<a [routerLink]="['Dashboard']">Diesel Station</a>
@@ -20,6 +19,7 @@ import {TruckerService} from './truckers/trucker.service'
 	<!--A template may hold exactly one unnamed <router-outlet>.-->
 	<router-outlet></router-outlet>
 	`,
+	styleUrls:['app/app.component.css']
 	directives: [ROUTER_DIRECTIVES],
 	providers: [ROUTER_PROVIDERS,TruckerService]
 	
@@ -28,7 +28,7 @@ import {TruckerService} from './truckers/trucker.service'
 @RouteConfig([
 	{path:'/dashboard', name:'Dashboard',component:DashboardComponent},
 	{ path: '/truckers', name: 'Truckers', component: TruckerListComponent },
-	{ path: '/trucker/:id', name: 'TruckerDetail', component: TruckerDetailComponent },
+	{ path: '/detail/:id', name: 'TruckerDetail', component: TruckerDetailComponent },
 	])
 
 export class AppComponent {

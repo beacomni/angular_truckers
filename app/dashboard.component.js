@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var trucker_service_1 = require('./truckers/trucker.service');
+var router_deprecated_1 = require('@angular/router-deprecated');
 /*
 We specify the path all the way back to the application root — app/
 in this case — because Angular doesn't support relative paths by default.
@@ -18,8 +19,9 @@ We can switch to component-relative paths if we prefer.
 Note -- NAB -- this comment may only apply to a more recent version of angular 2
 */
 var DashboardComponent = (function () {
-    function DashboardComponent(truckerService) {
+    function DashboardComponent(truckerService, router) {
         this.truckerService = truckerService;
+        this.router = router;
         this.truckers = [];
     }
     DashboardComponent.prototype.ngOnInit = function () {
@@ -29,13 +31,17 @@ var DashboardComponent = (function () {
             console.log(truckers);
         });
     };
-    DashboardComponent.prototype.gotoDetail = function () { };
+    DashboardComponent.prototype.gotoDetail = function (trucker) {
+        var link = ['TruckerDetail', { id: trucker.id }];
+        this.router.navigate(link);
+    };
     DashboardComponent = __decorate([
         core_1.Component({
             selector: 'my-dashboard',
-            templateUrl: 'dashboard.component.html'
+            templateUrl: 'dashboard.component.html',
+            styleUrls: ['app/dashboard.component.css']
         }), 
-        __metadata('design:paramtypes', [trucker_service_1.TruckerService])
+        __metadata('design:paramtypes', [trucker_service_1.TruckerService, router_deprecated_1.Router])
     ], DashboardComponent);
     return DashboardComponent;
 }());

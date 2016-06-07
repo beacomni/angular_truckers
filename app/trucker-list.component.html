@@ -1,0 +1,13 @@
+	<ul class="truckers">
+	<li *ngFor="let trucker of truckers" 
+	(click)="onSelect(trucker)" 
+	[class.selected]="trucker===selectedTrucker">
+	<span class="badge">{{trucker.id}}</span> {{trucker.handle}}
+	</li>
+	</ul>
+<div *ngIf="selectedTrucker">
+  <h2>
+    {{selectedTrucker.handle | uppercase}} rolls on 18 wheels of justice
+  </h2>
+  <button (click)="gotoDetail()">View Details</button>
+</div>

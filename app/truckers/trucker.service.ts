@@ -12,15 +12,10 @@ export class TruckerService{
 	getTruckers(){
 		//note that I think this is using ES2015 promises, NOT angular $q promises.
 		//return Promise.resolve(TRUCKERS);
-		return new Promise<Trucker[]>(resolve =>
-			setTimeout(() => resolve(TRUCKERS), 0));
+		return Promise.resolve(TRUCKERS);
 	}
 
 	getTrucker(id){
-		return new Promise<Trucker>(resolve => {
-			let foundTruckers = TRUCKERS.filter(trucker => { return trucker.id === id; });
-			console.log(foundTruckers);
-			if(foundTruckers.length === 1) {resolve(foundTruckers[0])};
-		})
+		return this.getTruckers().then(truckers => truckers.filter(trucker => trucker.id === id)[0]);
 	}
 }
