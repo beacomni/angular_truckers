@@ -19,6 +19,8 @@ var TruckerDetailComponent = (function () {
         this._routeParams = _routeParams;
         this._router = _router;
         this._truckerService = _truckerService;
+        this.close = new core_1.EventEmitter();
+        this.navigated = false; //true if navigated here
     }
     TruckerDetailComponent.prototype.onSelect = function (trucker) {
         //this.selectedTrucker = trucker;
@@ -27,19 +29,44 @@ var TruckerDetailComponent = (function () {
     };
     TruckerDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
-        var id = +this._routeParams.get('id');
-        console.log(id);
-        this._truckerService.getTrucker(id).then(function (trucker) { return _this.trucker = trucker; });
+        if (this._routeParams.get('id') !== null) {
+            var id = +this._routeParams.get('id');
+            this.navigated = true;
+            this._truckerService.getTrucker(id)
+                .then(function (trucker) { return _this.trucker = trucker; });
+        }
+        else {
+            this.navigated = false;
+            this.trucker = new Trucker_1.Trucker();
+        }
+    };
+    TruckerDetailComponent.prototype.save = function () {
+        var _this = this;
+        this._truckerService.save(this.trucker)
+            .then(function (trucker) {
+            _this.trucker = trucker;
+            _this.goBack(trucker);
+        })
+            .catch(function (error) { return _this.error = error; });
     };
     //Going back too far could take us out of the application. 
     //That's acceptable in a demo. We'd guard against it in a real application, perhaps with the routerCanDeactivate hook.
-    TruckerDetailComponent.prototype.goBack = function () {
-        window.history.back();
+    //The emit "handshake" between TruckerDetailComponent and Trucker List Component is an example of component to component communication. 
+    TruckerDetailComponent.prototype.goBack = function (savedTrucker) {
+        if (savedTrucker === void 0) { savedTrucker = null; }
+        this.close.emit(savedTrucker);
+        if (this.navigated) {
+            window.history.back();
+        }
     };
     __decorate([
         core_1.Input(), 
         __metadata('design:type', Trucker_1.Trucker)
     ], TruckerDetailComponent.prototype, "trucker", void 0);
+    __decorate([
+        core_1.Output(), 
+        __metadata('design:type', Object)
+    ], TruckerDetailComponent.prototype, "close", void 0);
     TruckerDetailComponent = __decorate([
         core_1.Component({
             selector: 'my-trucker-detail',

@@ -1,10 +1,16 @@
 	<ul class="truckers">
+	<button (click)="addTrucker()">Add New Trucker</button>
 	<li *ngFor="let trucker of truckers" 
 	(click)="onSelect(trucker)" 
 	[class.selected]="trucker===selectedTrucker">
 	<span class="badge">{{trucker.id}}</span> {{trucker.handle}}
+	<button class="delete-button" (click)="delete(trucker,$event)">Delete</button>
 	</li>
 	</ul>
+	<div *ngIf="addingTrucker">
+	  <my-trucker-detail (close)="close($event)"></my-trucker-detail>
+	  </div>
+
 <div *ngIf="selectedTrucker">
   <h2>
     {{selectedTrucker.handle | uppercase}} rolls on 18 wheels of justice

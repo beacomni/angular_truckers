@@ -19,7 +19,7 @@ import {TruckerService} from './truckers/trucker.service'
 	<!--A template may hold exactly one unnamed <router-outlet>.-->
 	<router-outlet></router-outlet>
 	`,
-	styleUrls:['app/app.component.css']
+	styleUrls:['app/app.component.css'],
 	directives: [ROUTER_DIRECTIVES],
 	providers: [ROUTER_PROVIDERS,TruckerService]
 	

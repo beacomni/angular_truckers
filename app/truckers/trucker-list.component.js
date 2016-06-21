@@ -18,7 +18,31 @@ var TruckerListComponent = (function () {
     function TruckerListComponent(_truckerService, _router) {
         this._truckerService = _truckerService;
         this._router = _router;
+        this.addingTrucker = false;
     }
+    TruckerListComponent.prototype.addTrucker = function () {
+        this.addingTrucker = true;
+        this.selectedTrucker = null;
+    };
+    TruckerListComponent.prototype.close = function (savedTrucker) {
+        this.addingTrucker = false;
+        if (savedTrucker) {
+            this.getTruckers();
+        }
+    };
+    TruckerListComponent.prototype.delete = function (trucker, event) {
+        var _this = this;
+        event.stopPropagation();
+        this._truckerService
+            .delete(trucker)
+            .then(function (result) {
+            _this.truckers = _this.truckers.filter(function (t) { return t !== trucker; });
+            if (_this.selectedTrucker === trucker) {
+                _this.selectedTrucker = null;
+            }
+        })
+            .catch(function (error) { return _this.error = error; });
+    };
     TruckerListComponent.prototype.onSelect = function (trucker) {
         this.selectedTrucker = trucker;
     };

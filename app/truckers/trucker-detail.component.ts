@@ -1,4 +1,4 @@
-import {Component, Input,OnInit} from '@angular/core';
+import {Component,EventEmitter, Input,Output,OnInit} from '@angular/core';
 import {Trucker} from './Trucker';
 import {Router, RouteParams} from '@angular/router-deprecated';
 import {TruckerService} from './trucker.service';
@@ -11,8 +11,10 @@ import {TruckerService} from './trucker.service';
 })
 
 export class TruckerDetailComponent{
-	@Input()
-	trucker : Trucker;
+	@Input() trucker: Trucker;
+	@Output() close = new EventEmitter();
+	error: any;
+	navigated = false; //true if navigated here
 
 	//The router extracts the route parameter (id:) from the URL and supplies it to the TruckerDetailComponent via the RouteParams service
 	constructor(
@@ -31,15 +33,36 @@ export class TruckerDetailComponent{
 	}
 
 	ngOnInit() {
-		let id = +this._routeParams.get('id');
-		console.log(id);
-		this._truckerService.getTrucker(id).then(trucker => this.trucker = trucker)
+		if(this._routeParams.get('id') !== null){
+			let id = +this._routeParams.get('id');
+			this.navigated = true;
+			this._truckerService.getTrucker(id)
+			  .then(trucker => this.trucker = trucker);	
+		}
+		else {
+			this.navigated = false;
+			this.trucker = new Trucker();
+		}
+	}
+
+	save(){
+		this._truckerService.save(this.trucker)
+			.then(trucker => {
+				this.trucker = trucker;
+				this.goBack(trucker);
+			})
+			.catch(error => this.error = error);
 	}
 
 	//Going back too far could take us out of the application. 
 	//That's acceptable in a demo. We'd guard against it in a real application, perhaps with the routerCanDeactivate hook.
-	goBack(){
-		window.history.back();
+
+	//The emit "handshake" between TruckerDetailComponent and Trucker List Component is an example of component to component communication. 
+	goBack(savedTrucker : Trucker = null){
+		this.close.emit(savedTrucker);
+		if(this.navigated){
+			window.history.back();
+		}
 	}
 }
 

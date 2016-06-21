@@ -23,6 +23,29 @@ export class TruckerListComponent implements OnInit {
 	public truckers: Trucker[];
 	title: 'Convoy';
 	selectedTrucker: Trucker;
+	addingTrucker = false;
+	error: any;
+
+	addTrucker(){
+		this.addingTrucker = true;
+		this.selectedTrucker = null;
+	}
+
+	close(savedTrucker: Trucker){
+		this.addingTrucker = false;
+		if (savedTrucker) { this.getTruckers();}
+	}
+
+	delete(trucker: Trucker, event: any){
+		event.stopPropagation();
+		this._truckerService
+		  .delete(trucker)
+		.then(result => {
+			this.truckers = this.truckers.filter(t => t !== trucker);
+			if (this.selectedTrucker === trucker) { this.selectedTrucker = null; }
+		})
+			.catch(error => this.error = error);
+	}
 
 	onSelect(trucker: Trucker) {
 		this.selectedTrucker = trucker;

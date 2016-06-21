@@ -1,5 +1,6 @@
-"use strict";
-exports.TRUCKERS = [
+export class InMemoryDataService {
+  createDb() {
+    let truckers = [
     { "id": 11, "handle": "Kevin-San" },
     { "id": 12, "handle": "Narcolepsue" },
     { "id": 13, "handle": "Barry the Egg" },
@@ -10,5 +11,7 @@ exports.TRUCKERS = [
     { "id": 18, "handle": "Horty" },
     { "id": 19, "handle": "El Virus" },
     { "id": 20, "handle": "Shugga T" }
-];
-//# sourceMappingURL=mock-truckers.js.map
+    ];
+    return {truckers};
+  }
+}
