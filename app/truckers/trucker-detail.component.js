@@ -10,13 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var Trucker_1 = require('./Trucker');
-var router_deprecated_1 = require('@angular/router-deprecated');
+var router_1 = require('@angular/router');
 var trucker_service_1 = require('./trucker.service');
 //parent app component will tell this component which Trucker to display
 var TruckerDetailComponent = (function () {
     //The router extracts the route parameter (id:) from the URL and supplies it to the TruckerDetailComponent via the RouteParams service
-    function TruckerDetailComponent(_routeParams, _router, _truckerService) {
-        this._routeParams = _routeParams;
+    function TruckerDetailComponent(_activatedRoute, _router, _truckerService) {
+        this._activatedRoute = _activatedRoute;
         this._router = _router;
         this._truckerService = _truckerService;
         this.close = new core_1.EventEmitter();
@@ -29,16 +29,21 @@ var TruckerDetailComponent = (function () {
     };
     TruckerDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
-        if (this._routeParams.get('id') !== null) {
-            var id = +this._routeParams.get('id');
-            this.navigated = true;
-            this._truckerService.getTrucker(id)
-                .then(function (trucker) { return _this.trucker = trucker; });
-        }
-        else {
-            this.navigated = false;
-            this.trucker = new Trucker_1.Trucker();
-        }
+        this.sub = this._activatedRoute.params.subscribe(function (params) {
+            if (params['id']) {
+                var id = +params['id'];
+                _this.navigated = true;
+                _this._truckerService.getTrucker(id)
+                    .then(function (trucker) { return _this.trucker = trucker; });
+            }
+            else {
+                _this.navigated = false;
+                _this.trucker = new Trucker_1.Trucker();
+            }
+        });
+    };
+    TruckerDetailComponent.prototype.ngOnDestroy = function () {
+        this.sub.unsubscribe();
     };
     TruckerDetailComponent.prototype.save = function () {
         var _this = this;
@@ -73,7 +78,7 @@ var TruckerDetailComponent = (function () {
             templateUrl: 'app/trucker-detail.component.html',
             styleUrls: ['app/trucker-detail.component.css']
         }), 
-        __metadata('design:paramtypes', [router_deprecated_1.RouteParams, router_deprecated_1.Router, trucker_service_1.TruckerService])
+        __metadata('design:paramtypes', [router_1.ActivatedRoute, router_1.Router, trucker_service_1.TruckerService])
     ], TruckerDetailComponent);
     return TruckerDetailComponent;
 }());

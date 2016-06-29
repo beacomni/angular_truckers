@@ -2,7 +2,7 @@ import {Component,OnInit} from '@angular/core';
 
 import {Trucker} from './truckers/Trucker';
 import {TruckerService} from './truckers/trucker.service';
-import {Router} from '@angular/router-deprecated';
+import {Router} from '@angular/router';
 /*
 We specify the path all the way back to the application root — app/ 
 in this case — because Angular doesn't support relative paths by default. 
@@ -30,7 +30,8 @@ export class DashboardComponent implements OnInit{
   }
 
   gotoDetail(trucker: Trucker){
-  	let link = ['TruckerDetail',{id: trucker.id}];
+    console.log('going to the detail');
+  	let link = ['/detail',trucker.id];
   	this.router.navigate(link);
   }
 }

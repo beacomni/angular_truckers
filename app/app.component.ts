@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {RouteConfig, ROUTER_DIRECTIVES,ROUTER_PROVIDERS} from '@angular/router-deprecated';
+import {ROUTER_DIRECTIVES} from '@angular/router';
 
 import {DashboardComponent} from './dashboard.component';
 import {TruckerListComponent} from './truckers/trucker-list.component';
@@ -21,15 +21,15 @@ import {TruckerService} from './truckers/trucker.service'
 	`,
 	styleUrls:['app/app.component.css'],
 	directives: [ROUTER_DIRECTIVES],
-	providers: [ROUTER_PROVIDERS,TruckerService]
+	providers: [TruckerService]
 	
 })
 
-@RouteConfig([
+/*@RouteConfig([
 	{path:'/dashboard', name:'Dashboard',component:DashboardComponent},
 	{ path: '/truckers', name: 'Truckers', component: TruckerListComponent },
 	{ path: '/detail/:id', name: 'TruckerDetail', component: TruckerDetailComponent },
-	])
+	])*/
 
 export class AppComponent {
 	title = 'Convoy';

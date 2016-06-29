@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var trucker_detail_component_1 = require('./trucker-detail.component');
 var trucker_service_1 = require('./trucker.service');
-var router_deprecated_1 = require('@angular/router-deprecated');
+var router_1 = require('@angular/router');
 //The (*) prefix to ngFor indicates that the <li> element and its children constitute a master template.
 var TruckerListComponent = (function () {
     //truckerService = new TruckerService(); // don't do this. Instead:
@@ -55,7 +55,7 @@ var TruckerListComponent = (function () {
     };
     TruckerListComponent.prototype.gotoDetail = function () {
         console.log('going');
-        this._router.navigate(['TruckerDetail', { id: this.selectedTrucker.id }]);
+        this._router.navigate(['/detail', this.selectedTrucker.id]);
     };
     TruckerListComponent = __decorate([
         core_1.Component({
@@ -65,7 +65,7 @@ var TruckerListComponent = (function () {
             providers: [trucker_service_1.TruckerService],
             styleUrls: ['app/trucker-list.component.css'],
         }), 
-        __metadata('design:paramtypes', [trucker_service_1.TruckerService, router_deprecated_1.Router])
+        __metadata('design:paramtypes', [trucker_service_1.TruckerService, router_1.Router])
     ], TruckerListComponent);
     return TruckerListComponent;
 }());

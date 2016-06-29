@@ -1,6 +1,6 @@
-import {Component,EventEmitter, Input,Output,OnInit} from '@angular/core';
+import {Component,EventEmitter, Input,Output,OnInit,OnDestroy} from '@angular/core';
 import {Trucker} from './Trucker';
-import {Router, RouteParams} from '@angular/router-deprecated';
+import {Router,ActivatedRoute} from '@angular/router';
 import {TruckerService} from './trucker.service';
 
 //parent app component will tell this component which Trucker to display
@@ -15,10 +15,11 @@ export class TruckerDetailComponent{
 	@Output() close = new EventEmitter();
 	error: any;
 	navigated = false; //true if navigated here
+	private sub: any;
 
 	//The router extracts the route parameter (id:) from the URL and supplies it to the TruckerDetailComponent via the RouteParams service
 	constructor(
-		private _routeParams: RouteParams,
+		private _activatedRoute: ActivatedRoute,
 		private _router: Router,
 		private _truckerService: TruckerService) { }
 
@@ -33,16 +34,22 @@ export class TruckerDetailComponent{
 	}
 
 	ngOnInit() {
-		if(this._routeParams.get('id') !== null){
-			let id = +this._routeParams.get('id');
-			this.navigated = true;
-			this._truckerService.getTrucker(id)
-			  .then(trucker => this.trucker = trucker);	
-		}
-		else {
-			this.navigated = false;
-			this.trucker = new Trucker();
-		}
+		this.sub = this._activatedRoute.params.subscribe(params =>{
+			if (params['id']){
+				let id = +params['id'];
+				this.navigated = true;
+				this._truckerService.getTrucker(id)
+					.then(trucker => this.trucker = trucker);	
+			}
+			else {
+				this.navigated = false;
+				this.trucker = new Trucker();
+			}
+		});
+	}
+
+	ngOnDestroy(){
+		this.sub.unsubscribe();
 	}
 
 	save(){

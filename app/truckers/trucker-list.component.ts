@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {TruckerDetailComponent} from './trucker-detail.component';
 import {TruckerService} from './trucker.service';
 import {Trucker} from './Trucker';
-import {Router} from '@angular/router-deprecated';
+import {Router} from '@angular/router';
 
 //The (*) prefix to ngFor indicates that the <li> element and its children constitute a master template.
 @Component({
@@ -61,7 +61,7 @@ export class TruckerListComponent implements OnInit {
 
 	gotoDetail(){
 		console.log('going');
-		this._router.navigate(['TruckerDetail',{id: this.selectedTrucker.id}]);
+		this._router.navigate(['/detail',this.selectedTrucker.id]);
 	}
 }
 

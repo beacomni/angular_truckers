@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var trucker_service_1 = require('./truckers/trucker.service');
-var router_deprecated_1 = require('@angular/router-deprecated');
+var router_1 = require('@angular/router');
 /*
 We specify the path all the way back to the application root — app/
 in this case — because Angular doesn't support relative paths by default.
@@ -32,7 +32,8 @@ var DashboardComponent = (function () {
         });
     };
     DashboardComponent.prototype.gotoDetail = function (trucker) {
-        var link = ['TruckerDetail', { id: trucker.id }];
+        console.log('going to the detail');
+        var link = ['/detail', trucker.id];
         this.router.navigate(link);
     };
     DashboardComponent = __decorate([
@@ -41,7 +42,7 @@ var DashboardComponent = (function () {
             templateUrl: 'dashboard.component.html',
             styleUrls: ['app/dashboard.component.css']
         }), 
-        __metadata('design:paramtypes', [trucker_service_1.TruckerService, router_deprecated_1.Router])
+        __metadata('design:paramtypes', [trucker_service_1.TruckerService, router_1.Router])
     ], DashboardComponent);
     return DashboardComponent;
 }());
